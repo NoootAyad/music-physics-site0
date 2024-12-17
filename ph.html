@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>مؤلف الموسيقى الفيزيائي</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background: linear-gradient(135deg, #f7f8fc, #dbe2ef);
+      color: #333;
+      margin: 0;
+      padding: 0;
+      direction: rtl;
+      text-align: center;
+    }
+
+    .container {
+      margin-top: 10%;
+      background-color: rgba(255, 255, 255, 0.9);
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.1);
+      width: 80%;
+      max-width: 500px;
+      margin: auto;
+    }
+
+    h1 {
+      color: #4a90e2;
+      font-size: 2.5rem;
+    }
+
+    p {
+      font-size: 1.3rem;
+      margin-bottom: 20px;
+      color: #555;
+    }
+
+    button {
+      background-color: #4a90e2;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      padding: 10px 20px;
+      font-size: 1.2rem;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #357abd;
+    }
+
+    #motion-data {
+      font-size: 1.5rem;
+      font-weight: bold;
+      margin-top: 20px;
+      color: #e74c3c;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>مؤلف الموسيقى الفيزيائي</h1>
+    <p>قم بتحريك جهازك لتشغيل الأصوات وتأليف الموسيقى!</p>
+    <button id="start-button">ابدأ</button>
+    <p id="motion-data">X: 0, Y: 0, Z: 0</p>
+  </div>
+
+  <script>
+    const motionData = document.getElementById('motion-data');
+    const startButton = document.getElementById('start-button');
+
+    // الأصوات
+    const sounds = [
+      new Audio('sounds/note1.mp3'), // الصوت الأول
+      new Audio('sounds/note2.mp3'), // الصوت الثاني
+      new Audio('sounds/note3.mp3')  // الصوت الثالث
+    ];
+
+    function handleMotion(event) {
+      const x = event.accelerationIncludingGravity.x.toFixed(2);
+      const y = event.accelerationIncludingGravity.y.toFixed(2);
+      const z = event.accelerationIncludingGravity.z.toFixed(2);
+
+      motionData.textContent = `X: ${x}, Y: ${y}, Z: ${z}`;
+
+      // تشغيل الأصوات بناءً على الحركة
+      if (Math.abs(x) > 8) {
+        sounds[0].play(); // تشغيل الصوت الأول
+      } else if (Math.abs(y) > 8) {
+        sounds[1].play(); // تشغيل الصوت الثاني
+      } else if (Math.abs(z) > 8) {
+        sounds[2].play(); // تشغيل الصوت الثالث
+      }
+    }
+
+    startButton.addEventListener('click', () => {
+      if (window.DeviceMotionEvent) {
+        window.addEventListener('devicemotion', handleMotion);
+        alert('حرك جهازك لتشغيل الأصوات!');
+      } else {
+        alert('هذا الجهاز لا يدعم مستشعرات الحركة.');
+      }
+    });
+  </script>
+</body>
+</html>
